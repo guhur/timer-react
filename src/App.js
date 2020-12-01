@@ -1,6 +1,5 @@
 import React, { Component, useState } from "react";
 import "./App.css";
-import Button from "./components/button";
 
 class TimerAsAComponent extends Component {
   constructor(props) {
@@ -8,15 +7,11 @@ class TimerAsAComponent extends Component {
     this.state = {
       counter: 0,
     };
-    // this.triggerCounter()
-    // setState
-  }
-  componentDidMount() {
-    this.triggerCounter();
   }
 
   triggerCounter() {
-    setInterval(() => {
+    clearInterval(this.intervalId);
+    this.intervalId = setInterval(() => {
       console.log(this.state.counter);
       this.setState((oldState) => {
         return { counter: oldState.counter + 1 };
@@ -29,7 +24,8 @@ class TimerAsAComponent extends Component {
     return (
       <div className="App">
         <div id="counter">{counter} sec</div>
-        <Button>Start</Button>
+        <button onClick={() => this.triggerCounter()}>start</button>
+        <button onClick={() => clearInterval(this.intervalId)}>stop</button>
       </div>
     );
   }
@@ -37,18 +33,25 @@ class TimerAsAComponent extends Component {
 
 function TimerAsAFunction() {
   const [counter, setCounter] = useState(0);
-  const [hasStarted, setStart] = useState(false);
+  const [intervalId, setIntervalId] = useState(false);
 
-  if (!hasStarted) {
-    setInterval(() => setCounter((oldCounter) => oldCounter + 1), 1000);
-    setStart(true);
-  }
+  const triggerCounter = () => {
+    clearInterval(intervalId);
+    const id = setInterval(
+      () => setCounter((oldCounter) => oldCounter + 1),
+      1000
+    );
+    setIntervalId(id);
+  };
 
   return (
     <div className="App">
       <div>{counter} sec</div>
+      <button onClick={() => triggerCounter()}>start</button>
+      <button onClick={() => clearInterval(intervalId)}>stop</button>
     </div>
   );
 }
 
-export default TimerAsAFunction;
+// export default TimerAsAFunction;
+export default TimerAsAComponent;
