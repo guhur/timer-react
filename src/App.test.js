@@ -24,11 +24,17 @@ it("starts automatically a timer", () => {
   act(() => {
     render(<App />, container);
   });
-  console.log(container.textContent);
-  let contenu = container.textContent;
-  expect(contenu).toMatch(/^0 sec.*/);
+
+  const message = container.querySelector("div");
+
+  expect(message.textContent).toBe("0 sec");
+
+  const button = container.querySelector("[data-testid]");
+  act(() => {
+    button.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+  });
+  expect(message.textContent).toBe("0 sec");
 
   jest.advanceTimersByTime(1000);
-  contenu = container.textContent;
-  expect(contenu).toMatch(/^1 sec.*/);
+  expect(message.textContent).toBe("1 sec");
 });

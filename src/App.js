@@ -22,11 +22,18 @@ class TimerAsAComponent extends Component {
   render() {
     const { counter } = this.state;
     return (
-      <div className="App">
+      <>
         <div id="counter">{counter} sec</div>
-        <button onClick={() => this.triggerCounter()}>start</button>
-        <button onClick={() => clearInterval(this.intervalId)}>stop</button>
-      </div>
+        <button data-testid="start" onClick={() => this.triggerCounter()}>
+          start
+        </button>
+        <button
+          data-testid="stop"
+          onClick={() => clearInterval(this.intervalId)}
+        >
+          stop
+        </button>
+      </>
     );
   }
 }
@@ -45,11 +52,15 @@ function TimerAsAFunction() {
   };
 
   return (
-    <div className="App">
+    <>
       <div>{counter} sec</div>
-      <button onClick={() => triggerCounter()}>start</button>
-      <button onClick={() => clearInterval(intervalId)}>stop</button>
-    </div>
+      <button data-testid="start" onClick={() => triggerCounter()}>
+        start
+      </button>
+      <button data-testid="stop" onClick={() => clearInterval(intervalId)}>
+        stop
+      </button>
+    </>
   );
 }
 
